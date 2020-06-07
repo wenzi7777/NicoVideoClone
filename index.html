@@ -19,14 +19,7 @@
                 --width: 640px;
                 --height: 360px;
             }
-            #comment-1 {
-                position: absolute;
-                top: 120px;
-                left: 320px;
-                color: white;
-                z-index: 2;
-            }
-            #play-button {
+           #play-button {
                 position: relative;
                 bottom: 0%;
                 left: 50%;
@@ -49,6 +42,11 @@
             isPlaying = false;
             playButtonText = "▷";
             playButton.value = playButtonText;
+            // canvas要素を取得
+            videoDrawArea = document.getElementById("video-draw-area");
+            commentX = 320;
+            commentY = 120;
+            commentFpsInterval = 0;
         }
         // 再生ボタン押下
         function pushPlayVideoButton() {
@@ -56,35 +54,35 @@
                 videoFile.play();
                 document.getElementById("play-button").value = "II";
                 isPlaying = true;
-                commentTimer = setInterval(moveComment, 100);
+                // canvasの描画をセット
                 canvasTimer = setInterval(drawVideoToCanvas, 1000/60);
             } else {
                 videoFile.pause();
                 document.getElementById("play-button").value = "▷";
                 isPlaying = false;
-                clearInterval(commentTimer);
+                // canvasの描画を解除
                 clearInterval(canvasTimer);
             }
         }
-        // コメント動作
-        function moveComment() {
-            var commentPositionX = parseInt(window.getComputedStyle(document.getElementById("comment-1")).getPropertyValue('left'));
-            commentPositionX = (commentPositionX - 10) + "px";
-            document.getElementById("comment-1").style.left = commentPositionX;
-
-        }
         // video要素をcanvasに描画
         function drawVideoToCanvas() {
-            videoDrawArea = document.getElementById("video-draw-area");
+            // video要素をcanvas要素へ描画
             videoDrawArea.getContext("2d").drawImage(videoFile, 0, 0, videoFile.videoWidth, videoFile.videoHeight, 0, 0, 640, 360);
+            // コメントの設定
+            videoDrawArea.getContext("2d").font = "14pt MSゴシック";
+            videoDrawArea.getContext("2d").fillStyle = "rgb(255, 255, 255)";
+            videoDrawArea.getContext("2d").fillText("ニコニコネット超会議", commentX, commentY);
+            // 何フレームか経過後に10pxずつコメントを動かす
+            commentFpsInterval += 1;
+            if (commentFpsInterval >= 6) {
+                commentX -= 10;
+                commentFpsInterval = 0;
+            }
         }
     </script>
 
     <div id = "player-area">
         <video id="video-file" src="video.mp4"></video>
-        <div id ="comment-data">
-            <div id ="comment-1">ニコニコネット超会議</div>
-        </div>
         <canvas id="video-draw-area" width="640px" height="360px"></canvas>
         <input id="play-button" type="button" onClick=pushPlayVideoButton() />
     </div>
