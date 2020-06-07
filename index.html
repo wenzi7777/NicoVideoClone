@@ -50,7 +50,7 @@
 
         }
         // 再生ボタン押下
-        function playVideo(){
+        function pushPlayVideoButton(){
             if (!isPlaying) {
                 videoFile.play();
                 document.getElementById("playButton").value = "II";
@@ -68,7 +68,7 @@
         <div id ="comment-data">
             <div id ="comment-1">ニコニコネット超会議</div>
         </div>
-        <input id="playButton" type="button" value="再生" onClick=playVideo() />
+        <input id="playButton" type="button" value="再生" onClick=pushPlayVideoButton() />
     </div>
 </body>
 
