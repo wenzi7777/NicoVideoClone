@@ -34,6 +34,7 @@
 
 <body>
     <script type="text/javascript">
+        // 初期化処理
         window.onload = function () {
             // video要素を変数に格納
             videoFile = document.getElementById("video-file");
@@ -43,7 +44,10 @@
             playButtonText = "▷";
             playButton.value = playButtonText;
             // canvas要素を取得
-            videoDrawArea = document.getElementById("video-draw-area");
+            videoDrawAreaContext = document.getElementById("video-draw-area").getContext("2d");
+            videoDrawAreaContext.fillStyle = "rgb(0, 0, 0)"
+            videoDrawAreaContext.fillRect(0, 0, 640, 360);
+            // コメント設定値
             commentX = 320;
             commentY = 120;
             commentFpsInterval = 0;
@@ -67,11 +71,11 @@
         // video要素をcanvasに描画
         function drawVideoToCanvas() {
             // video要素をcanvas要素へ描画
-            videoDrawArea.getContext("2d").drawImage(videoFile, 0, 0, videoFile.videoWidth, videoFile.videoHeight, 0, 0, 640, 360);
+            videoDrawAreaContext.drawImage(videoFile, 0, 0, videoFile.videoWidth, videoFile.videoHeight, 0, 0, 640, 360);
             // コメントの設定
-            videoDrawArea.getContext("2d").font = "14pt MSゴシック";
-            videoDrawArea.getContext("2d").fillStyle = "rgb(255, 255, 255)";
-            videoDrawArea.getContext("2d").fillText("ニコニコネット超会議", commentX, commentY);
+            videoDrawAreaContext.font = "14pt MSゴシック";
+            videoDrawAreaContext.fillStyle = "rgb(255, 255, 255)";
+            videoDrawAreaContext.fillText("ニコニコネット超会議", commentX, commentY);
             // 何フレームか経過後に10pxずつコメントを動かす
             commentFpsInterval += 1;
             if (commentFpsInterval >= 6) {
