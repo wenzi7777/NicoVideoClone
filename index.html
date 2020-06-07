@@ -41,25 +41,26 @@
             isPlaying = false;
             playButtonText = "▷";
             playButton.value = playButtonText;
-            // 再生時にコメントを動かす
-            videoFile.addEventListener("timeupdate", function() {
-                var comment_x_position = parseInt(window.getComputedStyle(document.getElementById("comment-1")).getPropertyValue('left'));
-                comment_x_position = (comment_x_position - 10) + "px"; 
-                document.getElementById("comment-1").style.left = comment_x_position 
-            })
-
         }
         // 再生ボタン押下
-        function pushPlayVideoButton(){
+        function pushPlayVideoButton() {
             if (!isPlaying) {
                 videoFile.play();
                 document.getElementById("playButton").value = "II";
                 isPlaying = true;
+                commentTimer = setInterval(moveComment, 100);
             } else {
                 videoFile.pause();
                 document.getElementById("playButton").value = "▷";
                 isPlaying = false;
+                clearInterval(commentTimer);
             }
+        }
+        function moveComment() {
+            var comment_x_position = parseInt(window.getComputedStyle(document.getElementById("comment-1")).getPropertyValue('left'));
+            comment_x_position = (comment_x_position - 10) + "px"; 
+            document.getElementById("comment-1").style.left = comment_x_position; 
+
         }
     </script>
 
