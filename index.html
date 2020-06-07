@@ -19,17 +19,27 @@
 <body>
     <script type="text/javascript">
         window.onload = function () {
+            // video要素を変数に格納
             videoFile = document.getElementById("video-file");
+            // 再生ボタン初期設定
             isPlaying = false;
             playButtonText = "▷";
+
+            // コメント要素初期設定
             document.getElementById("playButton").value = playButtonText;
             document.getElementById("comment-1").style.position = "absolute";
             document.getElementById("comment-1").style.top = "120px";
             document.getElementById("comment-1").style.left = "320px";
             document.getElementById("comment-1").style.color = "white";
-
+            
+            videoFile.addEventListener("timeupdate", function() {
+                var comment_x_position = parseInt(document.getElementById("comment-1").style.left);
+                comment_x_position = (comment_x_position - 10) + "px"; 
+                document.getElementById("comment-1").style.left = comment_x_position 
+            })
 
         }
+        // 再生ボタン押下
         function playVideo(){
             if (!isPlaying) {
                 videoFile.play();
@@ -41,8 +51,6 @@
                 isPlaying = false;
             }
         }
-        
-
     </script>
 
     <div id = "playerArea">
