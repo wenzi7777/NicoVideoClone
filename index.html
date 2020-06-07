@@ -24,6 +24,7 @@
                 top: 120px;
                 left: 320px;
                 color: white;
+                z-index: 2;
             }
             #play-button {
                 position: relative;
@@ -32,6 +33,7 @@
             }
             #video-draw-area {
                 position: relative;
+                z-index: 1;
             }
         -->
     </style>
@@ -84,7 +86,7 @@
             <div id ="comment-1">ニコニコネット超会議</div>
         </div>
         <canvas id="video-draw-area" width="640px" height="360px"></canvas>
-        <input id="play-button" type="button" value="再生" onClick=pushPlayVideoButton() />
+        <input id="play-button" type="button" onClick=pushPlayVideoButton() />
     </div>
 </body>
 
