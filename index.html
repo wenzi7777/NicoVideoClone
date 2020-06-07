@@ -2,6 +2,18 @@
 <html lang="ja">
 <head>
     <title>NicoVideoClone</title>
+
+    <style type="text/css">
+        <!--
+            #playerArea{
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                margin: 0;
+                padding: 0;
+            }
+        -->
+    </style>
 </head>
 
 <body>
@@ -11,6 +23,12 @@
             isPlaying = false;
             playButtonText = "▷";
             document.getElementById("playButton").value = playButtonText;
+            document.getElementById("comment-1").style.position = "absolute";
+            document.getElementById("comment-1").style.top = "120px";
+            document.getElementById("comment-1").style.left = "320px";
+            document.getElementById("comment-1").style.color = "white";
+
+
         }
         function playVideo(){
             if (!isPlaying) {
@@ -23,11 +41,17 @@
                 isPlaying = false;
             }
         }
+        
 
     </script>
 
-    <video id="video-file" src="video.mp4" controls width="640" height="360"></video>
-    <input id="playButton" type="button" value="再生" onClick=playVideo() />
+    <div id = "playerArea">
+        <video id="video-file" src="video.mp4" controls width="640" height="360"></video>
+        <input id="playButton" type="button" value="再生" onClick=playVideo() />
+        <div id ="comment-data">
+            <div id ="comment-1">ニコニコネット超会議</div>
+        </div>
+    </div>
 </body>
 
 
