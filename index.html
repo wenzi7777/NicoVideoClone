@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>NicoVideoClone</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        window.onload = function () {
+            videoFile = document.getElementById("video-file");
+            isPlaying = false;
+            playButtonText = "▷";
+            document.getElementById("playButton").value = playButtonText;
+        }
+        function playVideo(){
+            if (!isPlaying) {
+                videoFile.play();
+                document.getElementById("playButton").value = "II";
+                isPlaying = true;
+            } else {
+                videoFile.pause();
+                document.getElementById("playButton").value = "▷";
+                isPlaying = false;
+            }
+        }
+
+    </script>
+
+    <video id="video-file" src="video.mp4" controls width="640" height="360"></video>
+    <input id="playButton" type="button" value="再生" onClick=playVideo() />
+</body>
+
+
+</html>
