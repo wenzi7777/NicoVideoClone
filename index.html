@@ -5,16 +5,19 @@
 
     <style type="text/css">
         <!--
-            #playerArea {
+            #player-area {
                 position: absolute;
                 top: 5%;
                 left: 25%;
                 margin: 0;
                 padding: 0;
+                width: 640px;
+                height: 370px;
             }
             #video-file {
-                width: 640px;
-                height 360px;
+                display: none;
+                --width: 640px;
+                --height: 360px;
             }
             #comment-1 {
                 position: absolute;
@@ -22,10 +25,13 @@
                 left: 320px;
                 color: white;
             }
-            #playButton {
+            #play-button {
                 position: relative;
                 bottom: 0%;
                 left: 50%;
+            }
+            #video-draw-area {
+                position: relative;
             }
         -->
     </style>
@@ -37,7 +43,7 @@
             // video要素を変数に格納
             videoFile = document.getElementById("video-file");
             // 再生ボタン初期設定
-            playButton = document.getElementById("playButton");
+            playButton = document.getElementById("play-button");
             isPlaying = false;
             playButtonText = "▷";
             playButton.value = playButtonText;
@@ -46,30 +52,39 @@
         function pushPlayVideoButton() {
             if (!isPlaying) {
                 videoFile.play();
-                document.getElementById("playButton").value = "II";
+                document.getElementById("play-button").value = "II";
                 isPlaying = true;
                 commentTimer = setInterval(moveComment, 100);
+                canvasTimer = setInterval(drawVideoToCanvas, 1000/60);
             } else {
                 videoFile.pause();
-                document.getElementById("playButton").value = "▷";
+                document.getElementById("play-button").value = "▷";
                 isPlaying = false;
                 clearInterval(commentTimer);
+                clearInterval(canvasTimer);
             }
         }
+        // コメント動作
         function moveComment() {
-            var comment_x_position = parseInt(window.getComputedStyle(document.getElementById("comment-1")).getPropertyValue('left'));
-            comment_x_position = (comment_x_position - 10) + "px"; 
-            document.getElementById("comment-1").style.left = comment_x_position; 
+            var commentPositionX = parseInt(window.getComputedStyle(document.getElementById("comment-1")).getPropertyValue('left'));
+            commentPositionX = (commentPositionX - 10) + "px";
+            document.getElementById("comment-1").style.left = commentPositionX;
 
+        }
+        // video要素をcanvasに描画
+        function drawVideoToCanvas() {
+            videoDrawArea = document.getElementById("video-draw-area");
+            videoDrawArea.getContext("2d").drawImage(videoFile, 0, 0, videoFile.videoWidth, videoFile.videoHeight, 0, 0, 640, 360);
         }
     </script>
 
-    <div id = "playerArea">
+    <div id = "player-area">
         <video id="video-file" src="video.mp4"></video>
         <div id ="comment-data">
             <div id ="comment-1">ニコニコネット超会議</div>
         </div>
-        <input id="playButton" type="button" value="再生" onClick=pushPlayVideoButton() />
+        <canvas id="video-draw-area" width="640px" height="360px"></canvas>
+        <input id="play-button" type="button" value="再生" onClick=pushPlayVideoButton() />
     </div>
 </body>
 
