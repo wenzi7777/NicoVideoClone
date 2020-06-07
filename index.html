@@ -26,7 +26,8 @@
             }
             #video-draw-area {
                 position: relative;
-                z-index: 1;
+                width: 640px;
+                height: 359px;
             }
         -->
     </style>
@@ -44,6 +45,7 @@
             playButtonText = "▷";
             playButton.value = playButtonText;
             // canvas要素を取得
+            videoDrawArea = document.getElementById("video-draw-area");
             videoDrawAreaContext = document.getElementById("video-draw-area").getContext("2d");
             videoDrawAreaContext.fillStyle = "rgb(0, 0, 0)"
             videoDrawAreaContext.fillRect(0, 0, 640, 360);
@@ -70,6 +72,17 @@
         }
         // video要素をcanvasに描画
         function drawVideoToCanvas() {
+            // Retinaディスプレイ対応
+            // 表示上のサイズ
+            videoDrawArea.style.width = 640 + "px";
+            videoDrawArea.style.height = 360 + "px";
+            // canvasのサイズ
+            var pixelRatio = window.devicePixelRatio;
+            var canvasWidth = 640 * pixelRatio;
+            var canvasHeight = 360 * pixelRatio;
+            videoDrawArea.width = canvasWidth;
+            videoDrawArea.height = canvasHeight;
+            videoDrawAreaContext.scale(pixelRatio, pixelRatio);
             // video要素をcanvas要素へ描画
             videoDrawAreaContext.drawImage(videoFile, 0, 0, videoFile.videoWidth, videoFile.videoHeight, 0, 0, 640, 360);
             // コメントの設定
@@ -87,7 +100,7 @@
 
     <div id = "player-area">
         <video id="video-file" src="video.mp4"></video>
-        <canvas id="video-draw-area" width="640px" height="360px"></canvas>
+        <canvas id="video-draw-area" ></canvas>
         <input id="play-button" type="button" onClick=pushPlayVideoButton() />
     </div>
 </body>
